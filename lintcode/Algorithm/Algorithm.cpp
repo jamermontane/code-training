@@ -619,18 +619,19 @@ vector<vector<int>> Mine_sweeping(vector<vector<int>> &Mine_map, vector<int> &St
 
 	vector<vector<int>> ans;
 
-	if (Mine_map[Start[0]][Start[1]] == 0)
+	if (Mine_map[Start[0]][Start[1]] == 0 || Mine_map.size() == 1)
 	{
 		ans.push_back(Start);
 		return ans;
 	}
 
 	int size = Mine_map.size();
+	int size2 = Mine_map[0].size();
 	int** flag = new int*[size];
 	for (int i = 0;i < size;i++)
 	{
-		flag[i] = new int[size];
-		memset(flag[i], 0, sizeof(int)*size);
+		flag[i] = new int[size2];
+		memset(flag[i], 0, sizeof(int)*size2);
 	}
 	
 	stack<vector<int>> stkTemp;
@@ -646,47 +647,49 @@ vector<vector<int>> Mine_sweeping(vector<vector<int>> &Mine_map, vector<int> &St
 		vector<int> vc = stkTemp.top();
 		stkTemp.pop();
 
-		int s1 = vc[0] - 1 >= 0 ? vc[0] - 1 : 0;
-		int e1 = vc[0] + 1 >= size - 1 ? size - 1 : vc[0] + 1;
-		int s2 = vc[1] - 1 >= 0 ? vc[1] - 1 : 0;
-		int e2 = vc[1] + 1 >= size - 1 ? size - 1 : vc[1] + 1;
+		int vc0 = vc[0];
+		int vc1 = vc[1];
 
-		int t1 = vc[0];
-		int t2 = vc[1];
+		int s1 = vc0 - 1 >= 0 ? vc0 - 1 : 0;
+		int e1 = vc0 + 1 >= size - 1 ? size - 1 : vc0 + 1;
+		int s2 = vc1 - 1 >= 0 ? vc1 - 1 : 0;
+		int e2 = vc1 + 1 >= size2 - 1 ? size2 - 1 : vc1 + 1;
+
+		
 
 		for (int m = s1;m <= e1;m++)
 		{
-			if (flag[m][vc[1]] == 1) continue;;
-			if (m != vc[0])
+			if (flag[m][vc1] == 1) continue;;
+			if (m != vc0)
 			{
 				vector<int> pt;
 				pt.push_back(m);
-				pt.push_back(vc[1]);
+				pt.push_back(vc1);
 
 				ans.push_back(pt);
-				if (Mine_map[m][vc[1]] == 1)
+				if (Mine_map[m][vc1] == 1)
 				{
 					stkTemp.push(pt);
 				}
-				flag[m][vc[1]] = 1;
+				flag[m][vc1] = 1;
 				int t = stkTemp.size();
 			}
 		}
 		for (int m = s2;m <= e2;m++)
 		{
-			if (flag[vc[0]][m] == 1) continue;;
-			if (m != vc[1])
+			if (flag[vc0][m] == 1) continue;;
+			if (m != vc1)
 			{
 				vector<int> pt;
-				pt.push_back(vc[0]);
+				pt.push_back(vc0);
 				pt.push_back(m);
 
 				ans.push_back(pt);
-				if (Mine_map[vc[0]][m] == 1)
+				if (Mine_map[vc0][m] == 1)
 				{
 					stkTemp.push(pt);
 				}
-				flag[vc[0]][m] = 1;
+				flag[vc0][m] = 1;
 				int t = stkTemp.size();
 			}
 		}
@@ -1556,8 +1559,10 @@ void S1613()
 
 void S1892()
 {
-	vector<vector<int>> Mine_map = { {1,0,0,0},{1,0,0,0},{0,1,1,1},{0,1,0,0} };
-	vector<int> Start = { 1,0 };
+	/*vector<vector<int>> Mine_map = { {1,0,0,0},{1,0,0,0},{0,1,1,1},{0,1,0,0} };*/
+	/*vector<vector<int>> Mine_map = { { 1 } };*/
+	vector<vector<int>> Mine_map = { {1, 1},{1, 1},{1, 1} };
+	vector<int> Start = { 2,0 };
 	vector<vector<int>> ans = Mine_sweeping(Mine_map, Start);
 
 	for (int i = 0;i < ans.size();i++)
