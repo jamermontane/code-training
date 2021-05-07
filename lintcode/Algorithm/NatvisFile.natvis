@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="std::unique_ptr&lt;*&gt;" Priority="MediumLow">
+    <SmartPointer Usage="Minimal">_Myptr</SmartPointer>
+    <DisplayString Condition="_Myptr == 0">empty</DisplayString>
+    <DisplayString Condition="_Myptr != 0">unique_ptr {*_Myptr}</DisplayString>
+    <Expand>
+      <Item Condition="_Myptr != 0" Name="[ptr]">_Myptr</Item>
+    </Expand>
+  </Type>
+</AutoVisualizer>
